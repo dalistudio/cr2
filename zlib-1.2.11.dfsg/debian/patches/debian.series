@@ -1,0 +1,4 @@
+0001-Restore-gzflags-symbol-for-ABI-compatibility.patch
+cflags-for-minizip
+use-dso-really
+f9694097dd69354b03cb8af959094c7f260db0a1.patch
