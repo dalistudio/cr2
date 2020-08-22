@@ -88,12 +88,12 @@ def getOnlineModels():
         try:
             data = {'categories': gender, 'num': 127}
             # 修复BUG，为每个请求设置超时，避免卡死。
-            result = requests.post("https://roomlister.stream.highwebmedia.com/session/start/", data=data, timeout=5).json()
+            result = requests.post("https://roomlister.stream.highwebmedia.com/session/start/", data=data, timeout=20).json()
             length = len(result['rooms'])
             online.extend([m['username'].lower() for m in result['rooms']])
             data['key'] = result['key']
             while length == 127:
-                result = requests.post("https://roomlister.stream.highwebmedia.com/session/next/", data=data, timeout=5).json()
+                result = requests.post("https://roomlister.stream.highwebmedia.com/session/next/", data=data, timeout=20).json()
                 length = len(result['rooms'])
                 data['key'] = result['key']
                 online.extend([m['username'].lower() for m in result['rooms']])
@@ -105,6 +105,10 @@ def getOnlineModels():
     #wantedModels = list(set(wanted).intersection(online).difference(recording))
     '''new method for building list - testing issue #19 yet again'''
     wantedModels = [m for m in (list(set(wanted))) if m in online and m not in recording]
+    ''' test a_meow Model Start '''
+    #thread = Thread(target=startRecording, args=('a_meow',))
+    #thread.start()
+    ''' test a_meow Model End '''
     for theModel in wantedModels:
         thread = Thread(target=startRecording, args=(theModel,))
         thread.start()
